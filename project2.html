@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LinguaConnect – Connect. Learn. Exchange.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #2193b0 0%, #6dd5ed 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 50px;
+      background: rgba(255,255,255,0.95);
+      color: #232323;
+    }
+    .navbar .logo {
+      font-weight: bold;
+      font-size: 1.7rem;
+      display: flex;
+      align-items: center;
+    }
+    .navbar .logo span {
+      margin-left: 10px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 1.05rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #232323;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+    .nav-links a:hover {
+      color: #0078C7;
+    }
+    .navbar .actions {
+      display: flex;
+      gap: 18px;
+    }
+    .btn {
+      border: none;
+      padding: 9px 25px;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-weight: 500;
+    }
+    .btn.primary {
+      background: #FFA32B;
+      color: #fff;
+    }
+    .btn.secondary {
+      background: #f4f4f4;
+      color: #0078C7;
+    }
+    .btn.primary:active,
+    .btn.secondary:active {
+      transform: translateY(1px);
+    }
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 60px 5vw;
+      gap: 30px;
+    }
+    .hero-content {
+      max-width: 560px;
+      min-width: 320px;
+    }
+    .hero-content h1 {
+      font-size: 3.2rem;
+      margin: 0 0 10px 0;
+      color: #fff;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.15;
+    }
+    .hero-content h1 .blue {color: #1494ca;}
+    .hero-content h1 .orange {color: #FFA32B;}
+    .hero-content h1 .white {color: #fff;}
+    .hero-content p {
+      font-size: 1.18rem;
+      color: #eaeaea;
+      margin-top: 24px;
+    }
+    .features-row {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      margin: 32px 0 16px 0;
+      color: #eaeaea;
+      font-size: 1.05rem;
+    }
+    .features-row span {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 18px;
+      margin-top: 16px;
+    }
+    .languages-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .lang-tag {
+      background: #0d404d77;
+      color: #fff;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.97rem;
+      border: 1px solid #14537647;
+    }
+    /* Forms */
+    .form-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(33,54,61,0.26);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-modal.active {
+      display: flex;
+    }
+    .form-box {
+      background: #fff;
+      color: #232323;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 60px rgba(0,0,0,0.14);
+      min-width: 320px;
+      max-width: 95vw;
+      margin: auto;
+    }
+    .form-box h2 {
+      margin-top: 0;
+      color: #2193b0;
+      margin-bottom: 24px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .form-box label {
+      display: block;
+      margin-bottom: 6px;
+      margin-top: 14px;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    .form-box input[type="text"],
+    .form-box input[type="email"],
+    .form-box input[type="password"] {
+      width: 99%;
+      padding: 12px;
+      font-size: 1rem;
+      border: 1.8px solid #ced9ea;
+      border-radius: 7px;
+      margin-top: 2px;
+      transition: border 0.2s;
+    }
+    .form-box input:focus {
+      border-color: #2193b0;
+      outline: none;
+    }
+    .form-box .form-actions {
+      margin-top: 22px;
+      text-align: center;
+    }
+    .form-box .switch-link {
+      font-size: 0.98rem;
+      color: #2193b0;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .close-modal {
+      position: absolute;
+      top: 24px;
+      right: 40px;
+      font-size: 1.6rem;
+      color: #62798b;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 11;
+    }
+    .success-msg {
+      background: #e6fce6;
+      color: #117811;
+      border-radius: 6px;
+      padding: 10px 16px;
+      margin: 12px 0 0 0;
+      text-align: center;
+      font-size: 1.02rem;
+      display: none;
+    }
+    @media (max-width: 900px) {
+      .hero { 
+        flex-direction: column; 
+        padding: 40px 2vw; 
+      }
+      .hero-content { max-width: 100%; min-width: unset; }
+      .navbar { flex-direction: column; gap: 12px; padding: 18px 2vw;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="https://img.icons8.com/ios-filled/40/2193b0/language.png" alt="Logo" style="height:32px;">
+      <span>LinguaConnect</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Features</a>
+      <a href="#">How It Works</a>
+      <a href="#">Pricing</a>
+      <a href="#">About</a>
+    </div>
+    <div class="actions">
+      <button class="btn secondary" id="open-signin">Sign In</button>
+      <button class="btn primary" id="open-signup">Get Started</button>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="hero-content">
+      <h1>
+        <span class="blue">Connect</span>.<br>
+        <span class="orange">Learn</span>.<br>
+        <span class="white">Exchange</span>.
+      </h1>
+      <p>
+        Join millions of language learners worldwide.<br>
+        Practice with native speakers, make friends, and master new languages through real conversations.
+      </p>
+      <div class="features-row">
+        <span>🟡 2M+ Users</span>
+        <span>🟡 150+ Languages</span>
+        <span>🟡 24/7 Practice</span>
+      </div>
+      <div class="hero-actions">
+        <button class="btn primary" id="getstarted-btn">Start Learning Free →</button>
+        <button class="btn secondary" id="watchdemo-btn">Watch Demo</button>
+      </div>
+      <div class="languages-row">
+        <div class="lang-tag">EN Hello</div>
+        <div class="lang-tag">ES Hola</div>
+        <div class="lang-tag">FR Bonjour</div>
+        <div class="lang-tag">CN 你好</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sign In Modal -->
+  <div class="form-modal" id="signin-modal">
+    <div class="form-box">
+      <button class="close-modal" onclick="closeModal('signin-modal')">&times;</button>
+      <h2>Sign In</h2>
+      <form id="signinForm" autocomplete="off">
+        <label for="signin-email">Email</label>
+        <input type="email" id="signin-email" required>
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" required>
+        <div class="form-actions">
+          <button class="btn primary" style="width:98%;" type="submit">Sign In</button>
+          <br><br>
+          <span class="switch-link" onclick="switchToSignup()">Don't have an account? Sign Up</span>
+        </div>
+        <div class="success-msg" id="signin-success-msg"></div>
+      </form>
+    </div>
+  </div>
+  <!-- Sign Up Modal -->
+  <div class="form-modal" id="signup-modal">
+    <div class="form-box">
+      <button class="close-modal" onclick="closeModal('signup-modal')">&times;</button>
+      <h2>Get Started</h2>
+      <form id="signupForm" autocomplete="off">
+        <label for="signup-name">Full Name</label>
+        <input type="text" id="signup-name" required>
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" required>
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" required>
+        <div class="form-actions">
+          <button class="btn primary" style="width:98%;" type="submit">Create Account</button>
+          <br><br>
+          <span class="switch-link" onclick="switchToSignin()">Already have an account? Sign In</span>
+        </div>
+        <div class="success-msg" id="signup-success-msg"></div>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Open Modals
+    document.getElementById('open-signin').onclick = () => showModal('signin-modal');
+    document.getElementById('open-signup').onclick = () => showModal('signup-modal');
+    document.getElementById('getstarted-btn').onclick = () => showModal('signup-modal');
+
+    // Watch Demo demo handler (show alert here, you can replace as needed)
+    document.getElementById('watchdemo-btn').onclick = () => alert('Demo coming soon!');
+
+    // Modal logic
+    function showModal(id) {
+      // Hide both modals first
+      document.getElementById('signin-modal').classList.remove('active');
+      document.getElementById('signup-modal').classList.remove('active');
+      document.getElementById(id).classList.add('active');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('active');
+      // Clear messages
+      document.getElementById('signin-success-msg').style.display = 'none';
+      document.getElementById('signup-success-msg').style.display = 'none';
+    }
+    function switchToSignup() {
+      closeModal('signin-modal');
+      setTimeout(() => showModal('signup-modal'), 280);
+    }
+    function switchToSignin() {
+      closeModal('signup-modal');
+      setTimeout(() => showModal('signin-modal'), 280);
+    }
+
+    // Basic demo form logic (replace with real backend integration as needed)
+    document.getElementById('signinForm').onsubmit = function(e) {
+      e.preventDefault();
+      // Demo: Always success
+      document.getElementById('signin-success-msg').style.display = 'block';
+      document.getElementById('signin-success-msg').innerText = 'Signed in successfully! (Demo)';
+      setTimeout(() => {
+        closeModal('signin-modal');
+        // You could update UI here for logged in user
+      }, 1200);
+    };
+    document.getElementById('signupForm').onsubmit = function(e) {
+      e.preventDefault();
+      document.getElementById('signup-success-msg').style.display = 'block';
+      document.getElementById('signup-success-msg').innerText = 'Account created! Please Sign In. (Demo)';
+      setTimeout(() => {
+        closeModal('signup-modal');
+        showModal('signin-modal');
+      }, 1200);
+    };
+
+    // Optional: allow escape key to close
+    window.onkeydown = function(e) {
+      if ((e.key === 'Escape' || e.keyCode === 27)) {
+        closeModal('signin-modal');
+        closeModal('signup-modal');
+      }
+    };
+  </script>
+</body>
+</html>
